@@ -8,7 +8,9 @@ Also there are over 3000 lines in the manpage, which makes it hard to navigate.
 ## Idea
 We plan to make a nmap CLI tool, that will solve these problems.
 
-HOW???? - you may ask, by providing:
+**HOW????** - you may ask
+
+By providing:
 - [ ] Interactive interface
 - [ ] Tab completion
 - [ ] Inline documentation
