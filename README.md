@@ -17,6 +17,10 @@ By providing:
 - [ ] Smart suggestions
 - [ ] maybe additions?
 
+## Proof of concept
+
+![demo](output.gif)
+
 ## Used technologies
 - [Nmap](https://nmap.org/) (obviously)
 - [go-prompt](https://github.com/c-bata/go-prompt) (for creating CLI tool)
