@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/c-bata/go-prompt"
 	"os/exec"
 	"strings"
+
+	"github.com/c-bata/go-prompt"
 )
 
 func completer(d prompt.Document) []prompt.Suggest {
@@ -31,12 +32,15 @@ func main() {
 		}
 
 		parts := strings.Fields(t)
+		var cmd *exec.Cmd
 		if len(parts) == 0 {
 			fmt.Println("No command entered")
 			continue
+		} else if len(parts) == 1 && parts[0] == "nmap" {
+			cmd = exec.Command("nmap", "-h")
+		} else {
+			cmd = exec.Command(parts[0], parts[1:]...)
 		}
-
-		cmd := exec.Command(parts[0], parts[1:]...)
 
 		output, err := cmd.Output()
 		if err != nil {
