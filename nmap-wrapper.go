@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/c-bata/go-prompt"
+	"os/exec"
+	"strings"
 )
 
 func completer(d prompt.Document) []prompt.Suggest {
@@ -19,7 +21,28 @@ func completer(d prompt.Document) []prompt.Suggest {
 }
 
 func main() {
-	fmt.Println("Please type `nmap` and press tab for options.")
-	t := prompt.Input("> ", completer)
-	fmt.Println("You selected " + t)
+	fmt.Println("Please type `nmap` and press tab for options. 'exit' or 'quit' to exit the program.")
+	for {
+		t := prompt.Input("> ", completer)
+
+		if strings.ToLower(t) == "exit" || strings.ToLower(t) == "quit" || strings.ToLower(t) == "q" {
+			fmt.Println("Exiting program...")
+			break
+		}
+
+		parts := strings.Fields(t)
+		if len(parts) == 0 {
+			fmt.Println("No command entered")
+			continue
+		}
+
+		cmd := exec.Command(parts[0], parts[1:]...)
+
+		output, err := cmd.Output()
+		if err != nil {
+			fmt.Println("Error:", err)
+			continue
+		}
+		fmt.Println(string(output))
+	}
 }
