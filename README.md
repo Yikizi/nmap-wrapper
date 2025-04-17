@@ -21,6 +21,11 @@ By providing:
 
 ![demo](output.gif)
 
+## Running the project
+```
+go run *.go
+```
+
 ## Used technologies
 - [Nmap](https://nmap.org/) (obviously)
 - [go-prompt](https://github.com/c-bata/go-prompt) (for creating CLI tool)
