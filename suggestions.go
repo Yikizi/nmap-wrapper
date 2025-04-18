@@ -2,6 +2,37 @@ package main
 
 import "github.com/c-bata/go-prompt"
 
+var SudoRequiredFlags = []string{
+	"-sS",
+	"-sU",
+	"-sY",
+	"-sO",
+	"-sW",
+	"-sM",
+	"-sF",
+	"-sX",
+	"-sN",
+	"--scanflags",
+	"-O",
+	"-p",
+	"--script",
+	"--reason",
+	"--spoof-source",
+	"--badsum",
+	"--traceroute",
+	"--data",
+	"--data-length",
+	"--data-string",
+	"--ip-options",
+	"-e",
+	"-S",
+	"--proxies",
+	"-T4",
+	"-T5",
+	"--min-rate",
+	"--max-rate",
+}
+
 var Suggestions = []prompt.Suggest{
 	{Text: "-sC -sV -oA top-1000-ports ip_or_host1,ip_or_host2,...", Description: "Perform service/version detection (-sV), default script scanning (-sC) of the top 1000 ports, writing results (-oA) to Normal, XML, and Grepable files."},
 	{Text: "--script 'default and safe' ip_or_host1,ip_or_host2,...", Description: "Scan target(s) using only NSE scripts that are in both the 'default' AND 'safe' categories."},

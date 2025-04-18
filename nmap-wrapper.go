@@ -12,6 +12,16 @@ func completer(d prompt.Document) []prompt.Suggest {
 	return CustomFilter(Suggestions, d.GetWordBeforeCursor())
 }
 
+func checkSudo(cmd string) string {
+	for _, v := range SudoRequiredFlags {
+		if strings.Contains(cmd, v) {
+			fmt.Printf("The flag %s requires sudo, you may need to enter your password\n", v)
+			return "sudo " + cmd
+		}
+	}
+	return cmd
+}
+
 func main() {
 	fmt.Println("Please type `nmap` and press tab for options. 'exit' or 'quit' to exit the program.")
 	for {
@@ -22,6 +32,7 @@ func main() {
 			break
 		}
 
+		t = checkSudo(t)
 		parts := strings.Fields(t)
 		var cmd *exec.Cmd
 		if len(parts) == 0 {
