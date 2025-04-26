@@ -3,19 +3,19 @@ package main
 import "github.com/c-bata/go-prompt"
 
 var ScriptCategories = []prompt.Suggest{
-	{Text: "auth", Description: "Category - Tests authentication credentials and bypass mechanisms."},
-	{Text: "broadcast", Description: "Category - Discovers hosts via broadcast network protocols."},
-	{Text: "brute", Description: "Category - Performs brute-force password guessing attacks."},
-	{Text: "default.discovery", Description: "Category - Runs default scripts for service and host discovery."},
-	{Text: "dos", Description: "Category - Tests for denial-of-service vulnerabilities."},
-	{Text: "exploit", Description: "Category - Attempts to exploit known vulnerabilities."},
-	{Text: "external", Description: "Category - Interacts with external services or resources."},
-	{Text: "fuzzer", Description: "Category - Sends malformed inputs to test service robustness."},
-	{Text: "intrusive", Description: "Category - Performs aggressive scans that may disrupt services."},
-	{Text: "malware", Description: "Category - Detects malware or backdoors on systems."},
-	{Text: "safe", Description: "Category - Runs non-intrusive scripts unlikely to cause harm."},
-	{Text: "version", Description: "Category - Identifies service versions and software details."},
-	{Text: "vuln", Description: "Category - Scans for known vulnerabilities in services."},
+	{Text: "--script auth", Description: "Category - Tests authentication credentials and bypass mechanisms."},
+	{Text: "--script broadcast", Description: "Category - Discovers hosts via broadcast network protocols."},
+	{Text: "--script brute", Description: "Category - Performs brute-force password guessing attacks."},
+	{Text: "--script default.discovery", Description: "Category - Runs default scripts for service and host discovery."},
+	{Text: "--script dos", Description: "Category - Tests for denial-of-service vulnerabilities."},
+	{Text: "--script exploit", Description: "Category - Attempts to exploit known vulnerabilities."},
+	{Text: "--script external", Description: "Category - Interacts with external services or resources."},
+	{Text: "--script fuzzer", Description: "Category - Sends malformed inputs to test service robustness."},
+	{Text: "--script intrusive", Description: "Category - Performs aggressive scans that may disrupt services."},
+	{Text: "--script malware", Description: "Category - Detects malware or backdoors on systems."},
+	{Text: "--script safe", Description: "Category - Runs non-intrusive scripts unlikely to cause harm."},
+	{Text: "--script version", Description: "Category - Identifies service versions and software details."},
+	{Text: "--script vuln", Description: "Category - Scans for known vulnerabilities in services."},
 }
 
 var SudoRequiredFlags = []string{
