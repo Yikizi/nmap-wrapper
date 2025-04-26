@@ -9,7 +9,13 @@ import (
 )
 
 func completer(d prompt.Document) []prompt.Suggest {
-	return CustomFilter(Suggestions, d.GetWordBeforeCursor())
+	word := strings.Trim(d.GetWordBeforeCursor(), " ")
+	switch word {
+	case "--script":
+		return ScriptCategories
+	default:
+		return CustomFilter(Suggestions, word)
+	}
 }
 
 func checkSudo(cmd string) string {
