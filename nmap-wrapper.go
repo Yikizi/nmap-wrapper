@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os/exec"
+	"runtime"
 	"strings"
 
 	"github.com/c-bata/go-prompt"
@@ -19,6 +20,9 @@ func completer(d prompt.Document) []prompt.Suggest {
 }
 
 func checkSudo(cmd string) string {
+	if runtime.GOOS == "windows" {
+		return cmd
+	}
 	for _, v := range SudoRequiredFlags {
 		if strings.Contains(cmd, v) {
 			fmt.Printf("The flag %s requires sudo, you may need to enter your password\n", v)
