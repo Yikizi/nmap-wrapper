@@ -2,6 +2,22 @@ package main
 
 import "github.com/c-bata/go-prompt"
 
+var ScriptCategories = []prompt.Suggest{
+	{Text: "--script auth", Description: "Category - Tests authentication credentials and bypass mechanisms."},
+	{Text: "--script broadcast", Description: "Category - Discovers hosts via broadcast network protocols."},
+	{Text: "--script brute", Description: "Category - Performs brute-force password guessing attacks."},
+	{Text: "--script default.discovery", Description: "Category - Runs default scripts for service and host discovery."},
+	{Text: "--script dos", Description: "Category - Tests for denial-of-service vulnerabilities."},
+	{Text: "--script exploit", Description: "Category - Attempts to exploit known vulnerabilities."},
+	{Text: "--script external", Description: "Category - Interacts with external services or resources."},
+	{Text: "--script fuzzer", Description: "Category - Sends malformed inputs to test service robustness."},
+	{Text: "--script intrusive", Description: "Category - Performs aggressive scans that may disrupt services."},
+	{Text: "--script malware", Description: "Category - Detects malware or backdoors on systems."},
+	{Text: "--script safe", Description: "Category - Runs non-intrusive scripts unlikely to cause harm."},
+	{Text: "--script version", Description: "Category - Identifies service versions and software details."},
+	{Text: "--script vuln", Description: "Category - Scans for known vulnerabilities in services."},
+}
+
 var SudoRequiredFlags = []string{
 	"-sS",
 	"-sU",
@@ -34,8 +50,6 @@ var SudoRequiredFlags = []string{
 }
 
 var Suggestions = []prompt.Suggest{
-	{Text: "-sC -sV -oA top-1000-ports ip_or_host1,ip_or_host2,...", Description: "Perform service/version detection (-sV), default script scanning (-sC) of the top 1000 ports, writing results (-oA) to Normal, XML, and Grepable files."},
-	{Text: "--script 'default and safe' ip_or_host1,ip_or_host2,...", Description: "Scan target(s) using only NSE scripts that are in both the 'default' AND 'safe' categories."},
 	{Text: "-iL <inputfilename>", Description: "Input targets from a file specified by <inputfilename>."},
 	{Text: "-iR <num_hosts>", Description: "Choose <num_hosts> random targets to scan."},
 	{Text: "--exclude <host1,...>", Description: "Exclude specified hosts/networks from the scan."},

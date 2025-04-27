@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/c-bata/go-prompt"
 	"strings"
+
+	"github.com/c-bata/go-prompt"
 )
 
 func CustomFilter(suggestions []prompt.Suggest, sub string) []prompt.Suggest {
