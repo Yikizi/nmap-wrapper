@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"os/exec"
 	"runtime"
 	"strings"
@@ -87,6 +88,12 @@ func main() {
 				fmt.Println("You saved:", target)
 			},
 		}),
-	)
+		prompt.OptionAddKeyBind(prompt.KeyBind{
+			Key: prompt.ControlD,
+			Fn: func(b *prompt.Buffer) {
+				fmt.Println("\nExiting...")
+				os.Exit(0)
+			},
+		}))
 	p.Run()
 }
