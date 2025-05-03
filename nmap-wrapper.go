@@ -199,6 +199,40 @@ func execute(t string) {
 		os.Exit(0)
 	}
 
+	if strings.HasPrefix(t, "help") {
+		if t == "help" {
+			fmt.Println("Choose a help category")
+			t = "help " + prompt.Choose(
+				"> ",
+				[]string{
+					"ssh",
+					"snmp",
+					"smb",
+					"nfs",
+					"target specification",
+					"host discovery",
+					"scan techniques",
+					"port specification",
+					"version detection",
+					"scripts",
+					"os detection",
+					"timing and performance",
+					"firewall evasion and spoofing",
+					"output",
+					"misc",
+				},
+				prompt.OptionSuggestionBGColor(prompt.DarkGray),
+				prompt.OptionPrefixTextColor(prompt.Green),
+				prompt.OptionDescriptionBGColor(prompt.DarkGray),
+				prompt.OptionSelectedDescriptionBGColor(prompt.DarkGray),
+				prompt.OptionShowCompletionAtStart(),
+				prompt.OptionPreviewSuggestionBGColor(prompt.DarkGray),
+			)
+		}
+		GetHelp(strings.Split(t, " ")[1])
+		return
+	}
+
 	t = "nmap " + t
 
 	parseCommand(t)
@@ -215,7 +249,7 @@ func execute(t string) {
 		cmd = exec.Command(parts[0], parts[1:]...)
 	}
 
-	output, err := cmd.Output()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
@@ -226,6 +260,7 @@ func execute(t string) {
 func main() {
 	fmt.Println("NMAP Interactive CLI")
 	fmt.Println("Please type `nmap` and press tab for options. 'Ctrl-D' to exit the program.")
+	fmt.Println("Type `help` for tips and more info.")
 
 	p := prompt.New(
 		func(input string) {
