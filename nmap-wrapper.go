@@ -33,11 +33,6 @@ func checkSudo(cmd string) string {
 }
 
 func execute(t string) {
-	if strings.ToLower(t) == "exit" || strings.ToLower(t) == "quit" || strings.ToLower(t) == "q" {
-		fmt.Println("Exiting program...")
-		return
-	}
-
 	t = checkSudo(t)
 	parts := strings.Fields(t)
 	var cmd *exec.Cmd
