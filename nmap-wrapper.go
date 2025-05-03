@@ -6,6 +6,7 @@ import (
 	"os/exec"
 	"regexp"
 	"runtime"
+	"slices"
 	"strings"
 	"sync"
 
@@ -66,7 +67,7 @@ func (vm *ValueMemory) addValue(flag, value string) {
 
 	for i, v := range vm.values[flag] {
 		if v == value {
-			vm.values[flag] = append([]string{value}, append(vm.values[flag][:i], vm.values[flag][i+1:]...)...)
+			vm.values[flag] = append([]string{value}, slices.Delete(vm.values[flag], i, i+1)...)
 			return
 		}
 	}
@@ -83,7 +84,7 @@ func (vm *ValueMemory) addValue(flag, value string) {
 				duplicate := false
 				for i, v := range vm.values[otherFlag] {
 					if v == value {
-						vm.values[otherFlag] = append([]string{value}, append(vm.values[otherFlag][:i], vm.values[otherFlag][i+1:]...)...)
+						vm.values[otherFlag] = append([]string{value}, slices.Delete(vm.values[otherFlag], i, i+1)...)
 						duplicate = true
 						break
 					}
