@@ -306,7 +306,7 @@ func execute(t string) {
 		cmd = exec.Command(execParts[0], execParts[1:]...)
 	}
 
-	output, err := cmd.Output()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
@@ -315,10 +315,11 @@ func execute(t string) {
 }
 
 func main() {
-	fmt.Println("NMAP Interactive CLI")
+	fmt.Println("NMAP Interactive CLI. Press 'Ctrl-D' to exit.")
 	fmt.Println("Press tab for options")
 	fmt.Println("Save variables/commands with 'set <name> <command>' and use them with 'nmap <name>'")
 	fmt.Println("Use 'list' to see all saved variables/commands")
+	fmt.Println("Type `help` for tips and more info.")
 
 	p := prompt.New(
 		func(input string) {
