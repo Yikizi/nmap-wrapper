@@ -18,6 +18,24 @@ var ScriptCategories = []prompt.Suggest{
 	{Text: "--script vuln", Description: "Category - Scans for known vulnerabilities in services."},
 }
 
+var HelpCategories = []prompt.Suggest{
+	{Text: "help ssh", Description: ""},
+	{Text: "help snmp", Description: ""},
+	{Text: "help smb", Description: ""},
+	{Text: "help nfs", Description: ""},
+	{Text: "help target specification", Description: ""},
+	{Text: "help host discovery", Description: ""},
+	{Text: "help scan techniques", Description: ""},
+	{Text: "help port specification", Description: ""},
+	{Text: "help version detection", Description: ""},
+	{Text: "help scripts", Description: ""},
+	{Text: "help OS detection", Description: ""},
+	{Text: "help timing and performance", Description: ""},
+	{Text: "help output", Description: ""},
+	{Text: "help misc", Description: ""},
+	{Text: "help firewall evasion and spoofing", Description: ""},
+}
+
 var SudoRequiredFlags = []string{
 	"-sS",
 	"-sU",

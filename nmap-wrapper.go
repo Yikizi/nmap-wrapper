@@ -216,6 +216,10 @@ func completer(d prompt.Document) []prompt.Suggest {
 	word := strings.Trim(d.GetWordBeforeCursor(), " ")
 	line := d.TextBeforeCursor()
 
+	if strings.HasPrefix(line, "help") {
+		return HelpCategories
+	}
+
 	if strings.HasPrefix(line, "set ") {
 		// Empty suggestions
 		return []prompt.Suggest{}
@@ -247,6 +251,16 @@ func execute(t string) {
 	if t == "exit" || t == "quit" || t == "q" {
 		fmt.Println("Exiting...")
 		os.Exit(0)
+	}
+
+	if strings.HasPrefix(t, "help") {
+		parts := strings.Fields(t)
+		if len(parts) == 1 {
+			fmt.Println("Please pick a help category")
+			return
+		}
+		GetHelp(parts[1])
+		return
 	}
 
 	if strings.HasPrefix(t, "set ") {
