@@ -13,6 +13,39 @@ import (
 	"github.com/c-bata/go-prompt"
 )
 
+type CommandSet struct {
+	mu       sync.RWMutex
+	commands map[string]string
+}
+
+var commandSet = &CommandSet{
+	commands: make(map[string]string),
+}
+
+func (cs *CommandSet) setCommand(name, command string) {
+	cs.mu.Lock()
+	defer cs.mu.Unlock()
+	cs.commands[name] = command
+}
+
+func (cs *CommandSet) getCommand(name string) (string, bool) {
+	cs.mu.RLock()
+	defer cs.mu.RUnlock()
+	command, exists := cs.commands[name]
+	return command, exists
+}
+
+func (cs *CommandSet) listCommands() []string {
+	cs.mu.RLock()
+	defer cs.mu.RUnlock()
+
+	commandList := make([]string, 0, len(cs.commands))
+	for name, command := range cs.commands {
+		commandList = append(commandList, fmt.Sprintf("%s: %s", name, command))
+	}
+	return commandList
+}
+
 type ValueMemory struct {
 	mu     sync.RWMutex
 	values map[string][]string
@@ -135,6 +168,17 @@ func createEnhancedSuggestions() []prompt.Suggest {
 		}
 	}
 
+	commandList := commandSet.listCommands()
+	for _, cmd := range commandList {
+		parts := strings.SplitN(cmd, ":", 2)
+		if len(parts) == 2 {
+			enhanced = append(enhanced, prompt.Suggest{
+				Text:        parts[0],
+				Description: "Saved command set: " + strings.TrimSpace(parts[1]),
+			})
+		}
+	}
+
 	return enhanced
 }
 
@@ -170,6 +214,12 @@ func parseCommand(cmd string) {
 
 func completer(d prompt.Document) []prompt.Suggest {
 	word := strings.Trim(d.GetWordBeforeCursor(), " ")
+	line := d.TextBeforeCursor()
+
+	if strings.HasPrefix(line, "set ") {
+		// Empty suggestions
+		return []prompt.Suggest{}
+	}
 
 	enhanced := createEnhancedSuggestions()
 
@@ -199,20 +249,61 @@ func execute(t string) {
 		os.Exit(0)
 	}
 
+	if strings.HasPrefix(t, "set ") {
+		parts := strings.Fields(t)
+		if len(parts) < 3 {
+			fmt.Println("Usage: set <name> <command>")
+			return
+		}
+		name := parts[1]
+		command := strings.Join(parts[2:], " ")
+		commandSet.setCommand(name, command)
+		fmt.Printf("Saved command set '%s': %s\n", name, command)
+		return
+	}
+
+	if t == "list" {
+		commands := commandSet.listCommands()
+		if len(commands) == 0 {
+			fmt.Println("No saved command sets")
+			return
+		}
+		fmt.Println("Saved command sets:")
+		for _, cmd := range commands {
+			fmt.Println("  " + cmd)
+		}
+		return
+	}
+
+	parts := strings.Fields(t)
+	newParts := make([]string, 0, len(parts))
+
+	for _, part := range parts {
+		if cmd, exists := commandSet.getCommand(part); exists {
+			cmdParts := strings.Fields(cmd)
+			newParts = append(newParts, cmdParts...)
+		} else {
+			newParts = append(newParts, part)
+		}
+	}
+
+	// Actual command
+	t = strings.Join(newParts, " ")
+
 	t = "nmap " + t
 
 	parseCommand(t)
 
 	t = checkSudo(t)
-	parts := strings.Fields(t)
+	execParts := strings.Fields(t)
 	var cmd *exec.Cmd
-	if len(parts) == 0 {
+	if len(execParts) == 0 {
 		fmt.Println("No command entered")
 		return
-	} else if len(parts) == 1 && parts[0] == "nmap" {
+	} else if len(execParts) == 1 && execParts[0] == "nmap" {
 		cmd = exec.Command("nmap", "-h")
 	} else {
-		cmd = exec.Command(parts[0], parts[1:]...)
+		cmd = exec.Command(execParts[0], execParts[1:]...)
 	}
 
 	output, err := cmd.Output()
@@ -225,7 +316,9 @@ func execute(t string) {
 
 func main() {
 	fmt.Println("NMAP Interactive CLI")
-	fmt.Println("Please type `nmap` and press tab for options. 'Ctrl-D' to exit the program.")
+	fmt.Println("Press tab for options")
+	fmt.Println("Save variables/commands with 'set <name> <command>' and use them with 'nmap <name>'")
+	fmt.Println("Use 'list' to see all saved variables/commands")
 
 	p := prompt.New(
 		func(input string) {
