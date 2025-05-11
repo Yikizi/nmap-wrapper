@@ -216,6 +216,10 @@ func completer(d prompt.Document) []prompt.Suggest {
 	word := strings.Trim(d.GetWordBeforeCursor(), " ")
 	line := d.TextBeforeCursor()
 
+	if strings.HasPrefix(line, "help") {
+		return HelpCategories
+	}
+
 	if strings.HasPrefix(line, "set ") {
 		// Empty suggestions
 		return []prompt.Suggest{}
@@ -247,6 +251,16 @@ func execute(t string) {
 	if t == "exit" || t == "quit" || t == "q" {
 		fmt.Println("Exiting...")
 		os.Exit(0)
+	}
+
+	if strings.HasPrefix(t, "help") {
+		parts := strings.Fields(t)
+		if len(parts) == 1 {
+			fmt.Println("Please pick a help category")
+			return
+		}
+		GetHelp(parts[1])
+		return
 	}
 
 	if strings.HasPrefix(t, "set ") {
@@ -306,7 +320,7 @@ func execute(t string) {
 		cmd = exec.Command(execParts[0], execParts[1:]...)
 	}
 
-	output, err := cmd.Output()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
@@ -315,10 +329,11 @@ func execute(t string) {
 }
 
 func main() {
-	fmt.Println("NMAP Interactive CLI")
+	fmt.Println("NMAP Interactive CLI. Press 'Ctrl-D' to exit.")
 	fmt.Println("Press tab for options")
 	fmt.Println("Save variables/commands with 'set <name> <command>' and use them with 'nmap <name>'")
 	fmt.Println("Use 'list' to see all saved variables/commands")
+	fmt.Println("Type `help` for tips and more info.")
 
 	p := prompt.New(
 		func(input string) {
