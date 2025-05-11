@@ -4,6 +4,21 @@
   <img src="demo.svg" width="572" alt="nmap demo">
 </p>
 
+## Usage
+
+### Releases
+Grab a binary executable for your operating system from our [releases page](https://github.com/Yikizi/nmap-wrapper/releases) page.
+
+### Manual build
+Clone this repository and run:
+```
+go run *.go
+```
+To build a binary run:
+```
+go build
+```
+
 ## Problem
 Currently nmap is difficult to use. There are 115 different flags and those flags take also arguments.
 
@@ -76,15 +91,6 @@ The CLI tool provides intelligent autocompletion powered by `go-prompt`. Pressin
 -   **Saved Command Suggestions:** Your saved command names will also appear in the suggestions list, allowing you to quickly select them using `Tab`.
 
 To use autocompletion, just start typing a flag or command name and press `Tab`. Navigate the suggestions using the arrow keys and press `Enter` to select one.
-
-## Proof of concept
-- Look how far we've come!
-![demo](output.gif)
-
-## Running the project
-```
-go run *.go
-```
 
 ## Used technologies
 - [Nmap](https://nmap.org/) (obviously)
