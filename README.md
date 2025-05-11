@@ -1,5 +1,9 @@
 # Nmap Wrapper
 
+<p align="center">
+  <img src="demo.svg" width="572" alt="nmap demo">
+</p>
+
 ## Problem
 Currently nmap is difficult to use. There are 115 different flags and those flags take also arguments.
 
@@ -65,6 +69,7 @@ The CLI tool provides intelligent autocompletion powered by `go-prompt`. Pressin
 
 **Features:**
 
+- **Intelligent Fuzzy Matching:** You can type a part of the command OR the description - it will match!
 -   **Basic Tab Completion:** Provides a list of standard Nmap flags and script categories when you press `Tab`.
 -   **Inline Documentation:** Each suggestion includes a brief description to help you understand what the flag or option does.
 -   **Smart Suggestions (Last Used Values):** The tool remembers the last value you used for certain flags (like `-p`, `-iL`, `--script-args`, etc.). When you type one of these flags again, the suggestion will automatically include the last used value, often highlighted with `[last used: value]`. This speeds up repeated scans with similar parameters.
